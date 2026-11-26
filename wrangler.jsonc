@@ -1,0 +1,24 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "mastodon-mcp",
+  "main": "src/worker.ts",
+  "compatibility_date": "2026-11-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "observability": { "enabled": true },
+
+  // Non-secret configuration. Secrets: `wrangler secret put SECRET_KEY` (and MCP_API_KEYS,
+  // MASTODON_TOKEN(S), MASTODON_APPS if used). See README.md "Configuration".
+  "vars": {
+    "AUTH_MODE": "required",
+    "DEFAULT_SCOPES": "read write follow push profile",
+    "APP_SCOPES": "read write follow push profile admin:read admin:write"
+    // "DEFAULT_INSTANCE": "mastodon.social",
+    // "ALLOWED_INSTANCES": "mastodon.social,fosstodon.org",
+    // "PUBLIC_URL": "https://mastodon-mcp.example.workers.dev"
+  }
+
+  // Optional but recommended: caches registered Mastodon apps across isolates, so the
+  // server doesn't re-register an app on every cold start.
+  //   npx wrangler kv namespace create MCP_KV
+  // "kv_namespaces": [{ "binding": "MCP_KV", "id": "<id from the command above>" }]
+}

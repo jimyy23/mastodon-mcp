@@ -1,0 +1,26 @@
+services:
+  mastodon-mcp:
+    build: .
+    image: mastodon-mcp:latest
+    restart: unless-stopped
+    ports:
+      # Bind to localhost; put a TLS reverse proxy in front for remote/OAuth use.
+      - "127.0.0.1:8787:8787"
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      # Overrides for container networking; everything else comes from .env.
+      HOST: 0.0.0.0
+      PORT: 8787
+      DATA_DIR: /data
+    volumes:
+      - mcp-data:/data
+    read_only: true
+    tmpfs:
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
+
+volumes:
+  mcp-data:

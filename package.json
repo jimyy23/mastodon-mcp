@@ -1,0 +1,39 @@
+{
+  "name": "mastodon-mcp",
+  "version": "0.1.0",
+  "description": "Mastodon MCP server covering the full Mastodon REST API (user + admin), for Cloudflare Workers and Docker.",
+  "license": "AGPL-3.0-or-later",
+  "type": "module",
+  "private": true,
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "wrangler dev",
+    "dev:node": "tsx watch src/node.ts",
+    "start": "node dist/node.mjs",
+    "build": "esbuild src/node.ts --bundle --platform=node --format=esm --target=node20 --outfile=dist/node.mjs",
+    "deploy": "wrangler deploy",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "catalog": "tsx scripts/generate-catalog.ts",
+    "check-routes": "tsx scripts/check-routes.ts",
+    "check": "npm run typecheck && npm test"
+  },
+  "dependencies": {
+    "@hono/node-server": "^2.1.11",
+    "hono": "^4.13.22"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "esbuild": "^0.28.2",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2",
+    "vitest": "^5.1.2",
+    "wrangler": "^4.168.0"
+  },
+  "allowScripts": {
+    "esbuild@0.28.2": true,
+    "workerd@1.20261123.1": true
+  }
+}
